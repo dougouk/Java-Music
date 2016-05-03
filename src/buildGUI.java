@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -43,21 +45,35 @@ public class buildGUI
 	
 	static Midi m;
 	
-	String[] instrumentNames = {"Bass Drum", "Closed Hi-Hat", 
-			"Open Hi-Hate", "Acoustic Snare", "Crash Cymbal",
-			"Hand Clap", "High Tom", "Hi Bongo", "Maracas", "Whistle",
-			"Low Conga", "Cowbell", "Vibraslap", "Low-mid Tom", 
-			"High Agogo", "Open High Conga"};
+	String[] listOfInstruments = {"Bass Drum", 
+									"Closed Hi-Hat", 
+									"Open Hi-Hate", 
+									"Acoustic Snare", 
+									"Crash Cymbal",
+									"Hand Clap", 
+									"High Tom", 
+									"Hi Bongo", 
+									"Maracas", 
+									"Whistle",
+									"Low Conga", 
+									"Cowbell", 
+									"Vibraslap", 
+									"Low-mid Tom", 
+									"High Agogo", 
+									"Open High Conga"};
 	
 	public void build()
 		{
-			try {
+			try 
+			{
 	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+	        } 
+			catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 	        }
 			
 			frame = new JFrame ("Cyber BeatBox");
 			frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+			
 			BorderLayout layout = new BorderLayout();
 			JPanel background = new JPanel(layout);
 			JPanel east_panel = new JPanel(layout);
@@ -66,7 +82,18 @@ public class buildGUI
 			checkBoxList = new ArrayList<JToggleButton>();
 			Box buttonBox = new Box(BoxLayout.Y_AXIS);
 			
-			JButton start = new JButton ("Start");
+			ArrayList<JButton> listOfButtons = new ArrayList<JButton>();
+			
+			listOfButtons.add(new JButton ("Start"));
+			listOfButtons.add(new JButton ("Stop"));
+			listOfButtons.add(new JButton ("Tempo Up"));
+			listOfButtons.add(new JButton ("Tempo down"));
+			listOfButtons.add(new JButton ("Save"));
+			listOfButtons.add(new JButton ("Load"));
+			listOfButtons.add(new JButton ("Start"));
+			listOfButtons.add(new JButton ("Start"));
+			
+			JButton start = new JButton("Start");
 			start.addActionListener(new Start_Listener());
 			buttonBox.add(start);
 			
@@ -83,15 +110,14 @@ public class buildGUI
 			buttonBox.add(downTempo);
 			
 			JButton save = new JButton("Save");
-			save.addActionListener(new Save());
-			buttonBox.add(save);
+			AddActionListenerToButton(buttonBox, save);
 			
 			JButton load = new JButton("Load");
-			load.addActionListener (new Load());
+			load.addActionListener(new Load());
 			buttonBox.add(load);
 			
 			JButton clear = new JButton ("Clear");
-			clear.addActionListener (new Clear());
+			clear.addActionListener(new Clear());
 			buttonBox.add(clear);
 			
 			current_tempo = 1.00;
@@ -113,9 +139,9 @@ public class buildGUI
 			tempo_box.add(tempo_label);
 			tempo_box.add(tempo_textField);
 			Box nameBox = new Box (BoxLayout.Y_AXIS);
-			for (int i = 0; i < instrumentNames.length; i++)
+			for (int i = 0; i < listOfInstruments.length; i++)
 			{
-				nameBox.add(new Label (instrumentNames[i]));
+				nameBox.add(new Label (listOfInstruments[i]));
 			}
 			east_panel.setLayout(new BoxLayout(east_panel, BoxLayout.Y_AXIS));
 			east_panel.add(buttonBox);
@@ -144,6 +170,11 @@ public class buildGUI
 			
 			frame.setVisible(true);
 		}
+
+	private void AddActionListenerToButton(Box buttonBox, JButton button) {
+		button.addActionListener(new Save());
+		buttonBox.add(button);
+	}
 	
 	public static void set_tempo(double in){
 		current_tempo = in;
