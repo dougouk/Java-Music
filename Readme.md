@@ -1,4 +1,4 @@
-Self-Study Java Project
+# Self-Study Java Project
 
 Desktop Music Application using Java Midi Libraries
 
